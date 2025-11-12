@@ -9,6 +9,7 @@ class User:
 		"""
 		Constructor for the User class
 		"""
+		
 		self._user_id = user_id
 		self._name = name.strip().title()
 		self._email = email.strip().lower()
