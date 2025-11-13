@@ -5,51 +5,57 @@ class Truck:
 	Each truck has identifying details and can be linked to batteries
 	"""
 
-	def __init__(self, truck_ID: int, VIN: str, make: str, model: str, year: int):
+	def __init__(self, truck_id: int, VIN: str, make: str, model: str, year: int):
 		"""	
 		Constructor for truck data
+		Args:
+			truck_id (int): Unique ID for the truck
+			VIN (str): VIN of the truck
+			make (str): make of the truck
+			model (str): model of the truck
+			year (int): manufacture year of the truck 
 		"""
 
-		self._truck_ID = truck_ID
-		self._VIN = VIN
-		self._make = make
-		self._model = model
-		self._year = year
+		self._truck_id = truck_id
+		self.VIN = VIN
+		self.make = make
+		self.model = model
+		self.year = year
+
 		self._batteries = []
+		self._telemetry = []
 
 
 	# ===== Getter Methods =====
 
 
 	@property
-	def truck_ID(self) -> int:
-		"""Return the truck's ID"""
-		return self._truck_ID
+	def truck_id(self) -> int:
+		return self._truck_id
 
 	@property
 	def VIN(self) -> str:
-		"""Return the truck's VIN"""
 		return self._VIN
 	
 	@property
 	def make(self) -> str:
-		"""Return the truck's make"""
 		return self._make
 
 	@property
 	def model(self) -> str:
-		"""Return the truck's model"""
 		return self._model
 
 	@property
 	def year(self) -> int:
-		"""Return the truck's production year"""
 		return self._year
 	
 	@property
 	def batteries(self) -> list:
-		"""Return a list of Battery objects linked to this truck"""
-		return self._batteres
+		return self._batteries
+	
+	@property
+	def telemetry(self) -> list:
+		return self._telemetry
 	
 
 	# ===== Setter Methods =====
@@ -80,7 +86,7 @@ class Truck:
 			raise ValueError("Model cannot be empty")
 		if not isinstance(new_model, str):
 			raise ValueError("Invalid model")
-		self._make = new_model.strip().title()
+		self._model = new_model.strip().title()
 
 	@year.setter
 	def year(self, new_year: int):
@@ -97,11 +103,12 @@ class Truck:
 	def add_battery(self, battery):
 		"""
 		Link a Battery object to this truck
-		Args:
-			battery: A Battery instance
 		"""
 		self._batteries.append(battery)
 
+	def add_telemetry(self, record):
+		self._telemetry.append(record)
+
 	def __str__(self) -> str:
 		"""Return string representation of the truck"""
-		return f"Truck({self._truck_ID}): {self._make} {self._model} ({self._year}) - VIN: {self._VIN}"
+		return f"Truck({self._truck_id}): {self._make} {self._model} ({self._year}) - VIN: {self._VIN}"
