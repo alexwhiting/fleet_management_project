@@ -3,4 +3,6 @@ from models.battery import Battery
 from models.telemetry import TelemetryRecord
 from services.analytics_engine import AnalyticsEngine
 
-
+users = []
+trucks = []
+batteries = []
