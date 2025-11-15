@@ -1,0 +1,9 @@
+[
+  {
+    "user_id": 1,
+    "name": "Alex Whiting",
+    "email": "al408143@dal.ca",
+    "role": "manager",
+    "trucks": [1, 2]
+  }
+]

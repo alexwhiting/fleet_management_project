@@ -1,0 +1,11 @@
+[
+  {
+    "truck_id": 1,
+    "VIN": "1HGCM82633A123456",
+    "make": "Ford",
+    "model": "F150",
+    "year": 2020,
+    "batteries": [101],
+    "telemetry": [2001, 2002]
+  }
+]
