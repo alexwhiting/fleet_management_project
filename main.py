@@ -13,11 +13,6 @@ from models.telemetry import TelemetryRecord
 
 from datetime import datetime
 
-
-# ============================================================
-# UTILITY HELPERS
-# ============================================================
-
 def pause():
     input("\nPress ENTER to continue...")
 
