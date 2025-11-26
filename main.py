@@ -21,6 +21,20 @@ def pause():
 # USER MANAGEMENT
 # ============================================================
 
+def login(users):
+    print("\n--- Login ---")
+    email = input("Enter your email: ").strip().lower()
+
+    user = next((u for u in users if u.email == email), None)
+
+    if not user:
+        print("User not found.")
+        return None
+    
+    print(f"Welcome, {user.name} ({user.role})")
+    return user
+
+
 def add_user(users):
     print("\n--- Add New User ---")
     try:
@@ -90,6 +104,41 @@ def view_trucks(trucks):
 
     pause()
 
+def delete_truck(current_user, trucks, batteries, telemetry):
+    print("\n--- Delete Truck ---")
+
+    # Admin permission check
+    if not current_user.is_admin():
+        print("Access denied: Admins only.")
+        pause()
+        return
+    
+    truck_id = int(input("Enter Truck ID to delete: "))
+
+    truck = next((t for t in trucks if t.truck_id == truck_id), None)
+
+    if not truck:
+        print("Truck not found.")
+        pause()
+        return
+    
+    # Remove batteries that belong to this struck
+    batteries[:] = [b for b in batteries if b.truck.truck_id != truck_id]
+
+    # Remove telemetry data for this truck
+    telemetry[:] = [tr for tr in telemetry if tr.truck.truck_id != truck_id]
+    
+    # Remove the truck itself
+    trucks.remove(truck)
+
+    # Save updated data
+    save_trucks(trucks)
+    save_batteries(batteries)
+    save_telemetry(telemetry)
+
+    print(f"Truck {truck_id} and all related batteries/telemetry deleted.")
+    pause()
+
 
 # ============================================================
 # BATTERY MANAGEMENT
@@ -137,6 +186,34 @@ def view_batteries(batteries):
 
     pause()
 
+def delete_battery(current_user, batteries, telemetry):
+    print("\n--- Delete Battery ---")
+
+    if not current_user.is_admin():
+        print("Access denied: admin only.")
+        pause()
+        return
+
+    battery_id = int(input("Battery ID: "))
+
+    battery = next((b for b in batteries if b.battery_id == battery_id), None)
+
+    if not battery:
+        print("Battery not found.")
+        pause()
+        return
+
+    # Remove telemetry linked to this battery
+    telemetry[:] = [tr for tr in telemetry if tr.battery.battery_id != battery_id]
+
+    # Remove battery
+    batteries.remove(battery)
+
+    save_batteries(batteries)
+    save_telemetry(telemetry)
+
+    print("Battery deleted.")
+    pause()
 
 # ============================================================
 # TELEMETRY MANAGEMENT
@@ -206,6 +283,28 @@ def view_telemetry(telemetry):
 
     pause()
 
+def delete_telemetry(current_user, telemetry):
+    print("\n--- Delete Telemetry Record ---")
+
+    if not current_user.is_admin():
+        print("Admin only.")
+        pause()
+        return
+
+    record_id = int(input("Enter Record ID: "))
+
+    record = next((r for r in telemetry if r.record_id == record_id), None)
+
+    if not record:
+        print("Record not found.")
+        pause()
+        return
+
+    telemetry.remove(record)
+    save_telemetry(telemetry)
+
+    print("Telemetry record deleted.")
+    pause()
 
 # ============================================================
 # MAIN MENU
@@ -214,6 +313,12 @@ def view_telemetry(telemetry):
 def main():
     # Load everything from JSON database
     users, trucks, batteries, telemetry = load_all()
+
+    current_user = login(users)
+
+    if not current_user:
+        print("Exiting...")
+        return
 
     while True:
         print("\n==============================")
@@ -249,13 +354,16 @@ def main():
             print("\n--- Truck Menu ---")
             print("1. Add Truck")
             print("2. View Trucks")
-            print("3. Back")
+            print("3. Delete Truck (Admin Only)")
+            print("4. Back")
             sub = input("Choose: ")
 
             if sub == "1":
                 add_truck(trucks)
             elif sub == "2":
                 view_trucks(trucks)
+            elif sub == "3":
+                delete_truck(current_user, trucks, batteries, telemetry)
 
         # -------------------------
         # BATTERY SUBMENU
@@ -264,6 +372,7 @@ def main():
             print("\n--- Battery Menu ---")
             print("1. Add Battery")
             print("2. View Batteries")
+            print("")
             print("3. Back")
             sub = input("Choose: ")
 

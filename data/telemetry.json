@@ -1,11 +1,1 @@
-[
-  {
-    "record_id": 2001,
-    "truck_id": 1,
-    "battery_id": 101,
-    "temperature_c": 35.5,
-    "voltage_v": 47.8,
-    "current_a": 9.5,
-    "timestamp": "2025-11-13T10:25:30"
-  }
-]
+[]

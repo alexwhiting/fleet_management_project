@@ -82,4 +82,8 @@ class User:
 		"""Return string representation of the user"""
 		return f"User({self._user_id}): {self._name} ({self._role})"
 	
+	def is_admin(self) -> bool:
+		"""Returns true if the user is an admin"""
+		return self._role == "admin"
+	
 	

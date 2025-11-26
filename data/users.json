@@ -3,9 +3,16 @@
         "user_id": 1,
         "name": "Alex Whiting",
         "email": "al408143@dal.ca",
-        "role": "manager",
+        "role": "admin",
         "trucks": [
             1
         ]
+    },
+    {
+        "user_id": 2,
+        "name": "Joe Smith",
+        "email": "joesmith@dal.ca",
+        "role": "manager",
+        "trucks": []
     }
 ]
