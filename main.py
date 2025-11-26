@@ -372,14 +372,16 @@ def main():
             print("\n--- Battery Menu ---")
             print("1. Add Battery")
             print("2. View Batteries")
-            print("")
-            print("3. Back")
+            print("3. Delete Battery (Admin Only)")
+            print("4. Back")
             sub = input("Choose: ")
 
             if sub == "1":
                 add_battery(batteries, trucks)
             elif sub == "2":
                 view_batteries(batteries)
+            elif sub == "3":
+                delete_battery(current_user, trucks, batteries, telemetry)
 
         # -------------------------
         # TELEMETRY SUBMENU
@@ -388,13 +390,16 @@ def main():
             print("\n--- Telemetry Menu ---")
             print("1. Add Telemetry Record")
             print("2. View Telemetry")
-            print("3. Back")
+            print("3. Delete Telemetry (Admin Only)")
+            print("4. Back")
             sub = input("Choose: ")
 
             if sub == "1":
                 add_telemetry(trucks, batteries, telemetry)
             elif sub == "2":
                 view_telemetry(telemetry)
+            elif sub == "3":
+                delete_telemetry(current_user, trucks, batteries, telemetry)
 
         # -------------------------
         # EXIT

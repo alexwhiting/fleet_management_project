@@ -19,6 +19,7 @@ class User:
 		self.name = name
 		self.email = email
 		self.role = role
+		self.password = password
 		self._trucks = [] 
 
 
