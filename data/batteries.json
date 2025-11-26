@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "battery_id": 1,
+        "truck_id": 1,
+        "capacity_ah": 350.5,
+        "voltage_v": 72.0,
+        "status": "charging",
+        "telemetry": [
+            1
+        ]
+    }
+]
