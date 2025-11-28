@@ -47,6 +47,13 @@ def add_user(users):
         user_id = int(input("Enter User ID: "))
         name = input("Enter name: ")
         email = input("Enter email: ")
+
+        # ===== CHECK FOR EXISTING EMAIL IN JSON =====
+        if any(u.email == email for u in users):
+            print("Error: A user with this email already exists")
+            pause()
+            return
+        
         password = input("Enter password: ")
         role = input("Enter role (manager/admin/etc): ")
 
