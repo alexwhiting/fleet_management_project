@@ -1,23 +1,27 @@
+import hashlib
+
 class User:
 
 	"""
 	Represents a system user (e.g., fleet manager or admin)
-	Handles user data, including userID, name, email, role, and assigned trucks
+	Handles user data, including userID, name, email, password, role, and assigned trucks
 	"""
 
-	def __init__(self, user_id: int, name: str, email: str, role: str):
+	def __init__(self, user_id: int, name: str, email: str, password: str, role: str):
 		"""
 		Constructor for the User class
 		Args:
 			user_id (int): Unique ID for user
 			name (str): Name of user
 			email (str): Email of user
+			password (str): Password of usrr
 			role (str): role of user
 		"""
 		
 		self._user_id = user_id
 		self.name = name
 		self.email = email
+		self.password = password
 		self.role = role
 		self._trucks = [] 
 
@@ -36,6 +40,10 @@ class User:
 	@property
 	def email(self) -> str:
 		return self._email
+	
+	@property
+	def password(self) -> str:
+		return self._password_hash
 	
 	@property 
 	def role(self) -> str:
@@ -63,6 +71,14 @@ class User:
 			raise ValueError("Invalid email address")
 		self._email = new_email.strip().lower()
 
+	@password.setter
+	def password(self, new_pass: str):
+		if len(new_pass) < 6:
+			raise ValueError("Password must be at least 6 characters long")
+		
+		hash_object = hashlib.sha256(new_pass.encode())
+		self._password_hash = hash_object.hexdigest()
+
 	@role.setter
 	def role(self, new_role: str):
 		"""Update the user's role"""
@@ -85,5 +101,9 @@ class User:
 	def is_admin(self) -> bool:
 		"""Returns true if the user is an admin"""
 		return self._role == "admin"
+	
+	def check_password(self, plain_password: str) -> bool:
+		"""Compare plain password to stored SHA-256 hash"""
+		return hashlib.sha256(plain_password.encode()).hexdigest() == self._password_hash
 	
 	

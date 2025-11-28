@@ -32,16 +32,45 @@ def save_json(filename, data):
 
 def load_users():
     """
-    Load all users from users.json and reconstruct User objects
+    Load all users from users.json and reconstruct User objects.
+    Handles both new and old JSON formats.
     """
     users_raw = load_json("users.json")
-    users = []	
+    users = []
 
     for u in users_raw:
-        user = User(u["user_id"], u["name"], u["email"], u["role"])
+
+        if "password_hash" not in u:
+            print(f"[INFO] Adding default password for user {u['email']}: 'default123'")
+            
+            # Create user with default password (will be hashed)
+            user = User(
+                u["user_id"],
+                u["name"],
+                u["email"],
+                "default123",      
+                u["role"]
+            )
+
+            users.append(user)
+            continue
+
+        user = User(
+            u["user_id"],
+            u["name"],
+            u["email"],
+            "TEMP1234",         
+            u["role"]
+        )
+
+        # Override the temporary hash
+        user._password_hash = u["password_hash"]
+
         users.append(user)
 
     return users
+
+
 
 
 def load_trucks():
@@ -119,6 +148,10 @@ def load_telemetry(trucks, batteries):
 
 
 def save_users(users):
+    """
+    Save all users into users.json.
+    Stores SHA-256 hashed passwords.
+    """
     data = []
     for u in users:
         data.append({
@@ -126,9 +159,11 @@ def save_users(users):
             "name": u.name,
             "email": u.email,
             "role": u.role,
+            "password_hash": u.password,     # already hashed
             "trucks": [t.truck_id for t in u.trucks]
         })
     save_json("users.json", data)
+
 
 
 def save_trucks(trucks):

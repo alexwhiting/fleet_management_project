@@ -4,15 +4,17 @@
         "name": "Alex Whiting",
         "email": "al408143@dal.ca",
         "role": "admin",
+        "password_hash": "3a2fff45be2db8a8571c27060ab09e597b375621d391dceab14d5d6ba87632db",
         "trucks": [
             1
         ]
     },
     {
         "user_id": 2,
-        "name": "Joe Smith",
-        "email": "joesmith@dal.ca",
-        "role": "manager",
+        "name": "Sean Hurley",
+        "email": "sn553135@dal.ca",
+        "role": "admin",
+        "password_hash": "cbf06754df2f70dd1f853bdccaec98cc6d8ba861a2a91d357540b9d561b6ceb7",
         "trucks": []
     }
 ]

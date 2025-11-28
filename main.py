@@ -31,7 +31,13 @@ def login(users):
         print("User not found.")
         return None
     
-    print(f"Welcome, {user.name} ({user.role})")
+    password = input("Enter your password: ")
+
+    if not user.check_password(password):
+        print("Incorrect password.")
+        return None
+
+    print(f"Welcome {user.name}!")
     return user
 
 
@@ -41,9 +47,10 @@ def add_user(users):
         user_id = int(input("Enter User ID: "))
         name = input("Enter name: ")
         email = input("Enter email: ")
+        password = input("Enter password: ")
         role = input("Enter role (manager/admin/etc): ")
 
-        new_user = User(user_id, name, email, role)
+        new_user = User(user_id, name, email, password, role)
         users.append(new_user)
 
         save_users(users)
