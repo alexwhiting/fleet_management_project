@@ -69,18 +69,6 @@ def add_user(users):
 
     pause()
 
-
-def view_users(users):
-    print("\n--- User List ---")
-
-    if not users:
-        print("No users found.")
-    else:
-        for u in users:
-            print(u)
-
-    pause()
-
 def confirm_admin(user):
     if not user.is_admin():
         print("Access denied: Admin only.")
@@ -110,18 +98,6 @@ def add_truck(trucks):
 
     except ValueError as e:
         print(f"Error: {e}")
-
-    pause()
-
-
-def view_trucks(trucks):
-    print("\n--- Truck List ---")
-
-    if not trucks:
-        print("No trucks found.")
-    else:
-        for t in trucks:
-            print(t)
 
     pause()
 
@@ -190,18 +166,6 @@ def add_battery(batteries, trucks):
 
     except ValueError as e:
         print(f"Error: {e}")
-
-    pause()
-
-
-def view_batteries(batteries):
-    print("\n--- Battery List ---")
-
-    if not batteries:
-        print("No batteries found.")
-    else:
-        for b in batteries:
-            print(b)
 
     pause()
 
@@ -288,18 +252,6 @@ def add_telemetry(trucks, batteries, telemetry):
 
     pause()
 
-
-def view_telemetry(telemetry):
-    print("\n--- Telemetry Records ---")
-
-    if not telemetry:
-        print("No telemetry found.")
-    else:
-        for t in telemetry:
-            print(t)
-
-    pause()
-
 def delete_telemetry(current_user, telemetry):
     print("\n--- Delete Telemetry Record ---")
 
@@ -357,7 +309,7 @@ def users_menu(users):
         if sub == "1":
             add_user(users)
         elif sub == "2":
-            view_users(users)
+            print_list("Users", users)
         else:
             return
         
@@ -373,7 +325,7 @@ def trucks_menu(current_user, trucks, batteries, telemetry):
         if sub == "1":
             add_truck(trucks)
         elif sub == "2":
-            view_trucks(trucks)
+            print_list("Trucks", trucks)
         elif sub == "3":
             delete_truck(current_user, trucks, batteries, telemetry)
         else:
@@ -391,7 +343,7 @@ def battery_menu(current_user, trucks, batteries, telemetry):
         if sub == "1":
             add_battery(batteries, trucks)
         elif sub == "2":
-            view_batteries(batteries)
+            print_list("Batteries", batteries)
         elif sub == "3":
             delete_battery(current_user, batteries, telemetry)
         else:
@@ -409,11 +361,20 @@ def telemetry_menu(current_user, trucks, batteries, telemetry):
         if sub == "1":
             add_telemetry(trucks, batteries, telemetry)
         elif sub == "2":
-            view_telemetry(telemetry)
+            print_list("Telemetries", telemetry)
         elif sub == "3":
             delete_telemetry(current_user, telemetry)
         else:
             return
+        
+def print_list(title, items):
+    print(f"\n--- {title} ---")
+    if not items:
+        print("None found.")
+    else:
+        for item in items:
+            print(item)
+    pause()
 
 # ============================================================
 # MAIN MENU
@@ -443,7 +404,7 @@ def main():
         choice = input("Choose an option: ")
 
         if choice == "1":
-            users_menu(current_user, users, trucks, batteries, telemetry)
+            users_menu(users)
 
         elif choice == "2":
             trucks_menu(current_user, trucks, batteries, telemetry)
