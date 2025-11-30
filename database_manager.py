@@ -234,11 +234,16 @@ def load_all():
     batteries = load_batteries(trucks)
     telemetry = load_telemetry(trucks, batteries)
 
+    # === FAST lookup dictionaries ===
+    truck_map = {t.truck_id: t for t in trucks}
+    battery_map = {b.battery_id: b for b in batteries}
+    telemetry_map = {r.record_id: r for r in telemetry}
+
     # --- Reconnect Users -> Trucks ---
     users_raw = load_json("users.json")
     for u_data, user in zip(users_raw, users):
         for truck_id in u_data["trucks"]:
-            truck_obj = next((t for t in trucks if t.truck_id == truck_id), None)
+            truck_obj = truck_map.get(truck_id)
             if truck_obj:
                 user.add_truck(truck_obj)
 
@@ -247,25 +252,25 @@ def load_all():
     for t_data, truck in zip(trucks_raw, trucks):
         truck._batteries = []
         for battery_id in t_data["batteries"]:
-            b_obj = next((b for b in batteries if b.battery_id == battery_id), None)
-            if b_obj:
-                truck.add_battery(b_obj)
+            battery_obj = battery_map.get(battery_id)
+            if battery_obj:
+                truck.add_battery(battery_obj)
 
     # --- Reconnect Trucks -> Telemetry ---
     for t_data, truck in zip(trucks_raw, trucks):
         truck._telemetry = []
         for record_id in t_data["telemetry"]:
-            r_obj = next((r for r in telemetry if r.record_id == record_id), None)
-            if r_obj:
-                truck.add_telemetry(r_obj)
+            record_obj = telemetry_map.get(record_id)
+            if record_obj:
+                truck.add_telemetry(record_obj)
 
     # --- Reconnect Batteries -> Telemetry ---
     batteries_raw = load_json("batteries.json")
     for b_data, battery in zip(batteries_raw, batteries):
         battery._telemetry = []
         for record_id in b_data["telemetry"]:
-            r_obj = next((r for r in telemetry if r.record_id == record_id), None)
-            if r_obj:
-                battery.add_telemetry(r_obj)
+            record_obj = telemetry_map.get(record_id)
+            if record_obj:
+                battery.add_telemetry(record_obj)
 
     return users, trucks, batteries, telemetry
