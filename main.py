@@ -81,6 +81,12 @@ def view_users(users):
 
     pause()
 
+def confirm_admin(user):
+    if not user.is_admin():
+        print("Access denied: Admin only.")
+        return False
+    return True
+
 
 # ============================================================
 # TRUCK MANAGEMENT
@@ -123,9 +129,7 @@ def delete_truck(current_user, trucks, batteries, telemetry):
     print("\n--- Delete Truck ---")
 
     # Admin permission check
-    if not current_user.is_admin():
-        print("Access denied: Admins only.")
-        pause()
+    if not confirm_admin(current_user):
         return
     
     truck_id = int(input("Enter Truck ID to delete: "))
@@ -204,9 +208,8 @@ def view_batteries(batteries):
 def delete_battery(current_user, batteries, telemetry):
     print("\n--- Delete Battery ---")
 
-    if not current_user.is_admin():
-        print("Access denied: admin only.")
-        pause()
+    # Admin permission check
+    if not confirm_admin(current_user):
         return
 
     battery_id = int(input("Battery ID: "))
@@ -300,9 +303,8 @@ def view_telemetry(telemetry):
 def delete_telemetry(current_user, telemetry):
     print("\n--- Delete Telemetry Record ---")
 
-    if not current_user.is_admin():
-        print("Admin only.")
-        pause()
+    # Admin permission check
+    if not confirm_admin(current_user):
         return
 
     record_id = int(input("Enter Record ID: "))
@@ -416,7 +418,7 @@ def main():
             elif sub == "2":
                 view_batteries(batteries)
             elif sub == "3":
-                delete_battery(current_user, trucks, batteries, telemetry)
+                delete_battery(current_user, batteries, telemetry)
 
         # -------------------------
         # TELEMETRY SUBMENU
@@ -434,7 +436,7 @@ def main():
             elif sub == "2":
                 view_telemetry(telemetry)
             elif sub == "3":
-                delete_telemetry(current_user, trucks, batteries, telemetry)
+                delete_telemetry(current_user, telemetry)
 
         # -------------------------
         # TELEMETRY SUBMENU

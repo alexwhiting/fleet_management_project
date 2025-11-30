@@ -16,5 +16,13 @@
         "role": "admin",
         "password_hash": "cbf06754df2f70dd1f853bdccaec98cc6d8ba861a2a91d357540b9d561b6ceb7",
         "trucks": []
+    },
+    {
+        "user_id": 3,
+        "name": "John Smith",
+        "email": "johnsmith@dal.ca",
+        "role": "manager",
+        "password_hash": "370420e335f7a4d2ead6879991641792d5bdcde2db5d4fae3d976c2133732cda",
+        "trucks": []
     }
 ]
