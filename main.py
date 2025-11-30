@@ -343,6 +343,79 @@ def run_analytics(batteries):
     pause()
 
 # ============================================================
+# DISPLAY MENU FUNCTIONS
+# ============================================================
+
+def users_menu(users):
+    while True:
+        print("\n--- User Menu ---")
+        print("1. Add User")
+        print("2. View Users")
+        print("3. Back")
+        sub = input("Choose: ")
+
+        if sub == "1":
+            add_user(users)
+        elif sub == "2":
+            view_users(users)
+        else:
+            return
+        
+def trucks_menu(current_user, trucks, batteries, telemetry):
+    while True:
+        print("\n--- Truck Menu ---")
+        print("1. Add Truck")
+        print("2. View Trucks")
+        print("3. Delete Truck (Admin Only)")
+        print("4. Back")
+        sub = input("Choose: ")
+
+        if sub == "1":
+            add_truck(trucks)
+        elif sub == "2":
+            view_trucks(trucks)
+        elif sub == "3":
+            delete_truck(current_user, trucks, batteries, telemetry)
+        else:
+            return
+        
+def battery_menu(current_user, trucks, batteries, telemetry):
+    while True:
+        print("\n--- Battery Menu ---")
+        print("1. Add Battery")
+        print("2. View Batteries")
+        print("3. Delete Battery (Admin Only)")
+        print("4. Back")
+        sub = input("Choose: ")
+
+        if sub == "1":
+            add_battery(batteries, trucks)
+        elif sub == "2":
+            view_batteries(batteries)
+        elif sub == "3":
+            delete_battery(current_user, batteries, telemetry)
+        else:
+            return
+
+def telemetry_menu(current_user, trucks, batteries, telemetry):
+    while True:
+        print("\n--- Telemetry Menu ---")
+        print("1. Add Telemetry Record")
+        print("2. View Telemetry")
+        print("3. Delete Telemetry (Admin Only)")
+        print("4. Back")
+        sub = input("Choose: ")
+
+        if sub == "1":
+            add_telemetry(trucks, batteries, telemetry)
+        elif sub == "2":
+            view_telemetry(telemetry)
+        elif sub == "3":
+            delete_telemetry(current_user, telemetry)
+        else:
+            return
+
+# ============================================================
 # MAIN MENU
 # ============================================================
 
@@ -369,84 +442,21 @@ def main():
 
         choice = input("Choose an option: ")
 
-        # -------------------------
-        # USERS SUBMENU
-        # -------------------------
         if choice == "1":
-            print("\n--- User Menu ---")
-            print("1. Add User")
-            print("2. View Users")
-            print("3. Back")
-            sub = input("Choose: ")
+            users_menu(current_user, users, trucks, batteries, telemetry)
 
-            if sub == "1":
-                add_user(users)
-            elif sub == "2":
-                view_users(users)
-
-        # -------------------------
-        # TRUCK SUBMENU
-        # -------------------------
         elif choice == "2":
-            print("\n--- Truck Menu ---")
-            print("1. Add Truck")
-            print("2. View Trucks")
-            print("3. Delete Truck (Admin Only)")
-            print("4. Back")
-            sub = input("Choose: ")
+            trucks_menu(current_user, trucks, batteries, telemetry)
 
-            if sub == "1":
-                add_truck(trucks)
-            elif sub == "2":
-                view_trucks(trucks)
-            elif sub == "3":
-                delete_truck(current_user, trucks, batteries, telemetry)
-
-        # -------------------------
-        # BATTERY SUBMENU
-        # -------------------------
         elif choice == "3":
-            print("\n--- Battery Menu ---")
-            print("1. Add Battery")
-            print("2. View Batteries")
-            print("3. Delete Battery (Admin Only)")
-            print("4. Back")
-            sub = input("Choose: ")
+            battery_menu(current_user, trucks, batteries, telemetry)
 
-            if sub == "1":
-                add_battery(batteries, trucks)
-            elif sub == "2":
-                view_batteries(batteries)
-            elif sub == "3":
-                delete_battery(current_user, batteries, telemetry)
-
-        # -------------------------
-        # TELEMETRY SUBMENU
-        # -------------------------
         elif choice == "4":
-            print("\n--- Telemetry Menu ---")
-            print("1. Add Telemetry Record")
-            print("2. View Telemetry")
-            print("3. Delete Telemetry (Admin Only)")
-            print("4. Back")
-            sub = input("Choose: ")
+            telemetry_menu(current_user, trucks, batteries, telemetry)
 
-            if sub == "1":
-                add_telemetry(trucks, batteries, telemetry)
-            elif sub == "2":
-                view_telemetry(telemetry)
-            elif sub == "3":
-                delete_telemetry(current_user, telemetry)
-
-        # -------------------------
-        # TELEMETRY SUBMENU
-        # -------------------------
         elif choice == "5":
             run_analytics(batteries)
 
-        # -------------------------
-        # EXIT
-        # -------------------------
         elif choice == "6":
             print("Goodbye!")
             break
