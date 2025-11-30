@@ -10,6 +10,7 @@ from models.user import User
 from models.truck import Truck
 from models.battery import Battery
 from models.telemetry import TelemetryRecord
+from services.analytics_engine import AnalyticsEngine
 
 from datetime import datetime
 
@@ -217,7 +218,6 @@ def delete_battery(current_user, batteries, telemetry):
         pause()
         return
 
-    # Remove telemetry linked to this battery
     telemetry[:] = [tr for tr in telemetry if tr.battery.battery_id != battery_id]
 
     # Remove battery
@@ -321,6 +321,26 @@ def delete_telemetry(current_user, telemetry):
     pause()
 
 # ============================================================
+# ANALYTICS MANAGEMENT
+# ============================================================
+
+def run_analytics(batteries):
+    print("\n=== Battery Analytics ===")
+
+    engine = AnalyticsEngine()
+
+    if not batteries:
+        print("No batteries in the system.")
+        pause()
+        return
+    
+    for b in batteries:
+        print(engine.analyze_battery(b))
+        print("--------------------------------")
+
+    pause()
+
+# ============================================================
 # MAIN MENU
 # ============================================================
 
@@ -342,7 +362,8 @@ def main():
         print("2. Manage Trucks")
         print("3. Manage Batteries")
         print("4. Manage Telemetry")
-        print("5. Quit")
+        print("5. Run Analytics")
+        print("6. Quit")
 
         choice = input("Choose an option: ")
 
@@ -416,9 +437,15 @@ def main():
                 delete_telemetry(current_user, trucks, batteries, telemetry)
 
         # -------------------------
-        # EXIT
+        # TELEMETRY SUBMENU
         # -------------------------
         elif choice == "5":
+            run_analytics(batteries)
+
+        # -------------------------
+        # EXIT
+        # -------------------------
+        elif choice == "6":
             print("Goodbye!")
             break
 

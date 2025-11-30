@@ -74,3 +74,22 @@ class AnalyticsEngine:
 
         remaining = max(0, 100 - loss)
         return remaining
+    
+    def analyze_battery(self, battery):
+        """
+        Returns a formatted summary about a battery using telemetry data
+        """
+
+        telemetry = battery.telemetry
+        telemetry = self.clean_data(telemetry)
+
+        avg_temp = self.average_temperature(telemetry)
+        fade = self.predict_capacity_fade(telemetry)
+        life = self.predict_remaining_life(telemetry)
+
+        return (
+            f"Battery {battery.battery_id} Analysis:\n"
+            f" - Avg Temperature: {avg_temp:.2f}°C\n"
+            f" - Voltage Trend (fade): {fade:.4f}\n"
+            f" - Estimated Remaining Life: {life:.1f}/100\n"
+        )
